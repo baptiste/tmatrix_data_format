@@ -144,6 +144,10 @@ ul.task-list li input[type="checkbox"] {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../website/terms_comparison.html"> 
+<span class="menu-text">TERMS</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -178,6 +182,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#examples-of-export-with-dummy-data" id="toc-examples-of-export-with-dummy-data" class="nav-link active" data-scroll-target="#examples-of-export-with-dummy-data">Examples of export with dummy data</a></li>
   <li><a href="#misc.-utilities" id="toc-misc.-utilities" class="nav-link" data-scroll-target="#misc.-utilities">Misc. utilities</a></li>
   <li><a href="#smarties-examples" id="toc-smarties-examples" class="nav-link" data-scroll-target="#smarties-examples">SMARTIES examples</a></li>
+  <li><a href="#terms-examples" id="toc-terms-examples" class="nav-link" data-scroll-target="#terms-examples">TERMS examples</a></li>
   </ul>
 </nav>
     </div>
@@ -236,8 +241,15 @@ ul.task-list li input[type="checkbox"] {
 <section id="smarties-examples" class="level2">
 <h2 class="anchored" data-anchor-id="smarties-examples">SMARTIES examples</h2>
 <ul>
-<li>Doc: <a href="smarties.html">Smarties</a> • Script: <a href="smarties.m">smarties.m</a> • Output: <a href="smarties_spectrum.tmat.h5">smarties_spectrum.tmat.h5</a></li>
-<li>Batch example: <a href="smarties_batch.html">smarties_batch</a></li>
+<li>Doc: <a href="smarties_simple.html">Smarties</a> • Script: <a href="smarties_simple.m">smarties_simple.m</a> • Output: <a href="smarties/smarties_simple.tmat.h5">smarties/smarties_simple.tmat.h5</a></li>
+<li>Doc: <a href="smarties_advanced.html">Smarties</a> • Script: <a href="smarties_advanced.m">smarties_advanced.m</a> • Output: <a href="smarties/smarties_advanced.tmat.h5">smarties/smarties_advanced.tmat.h5</a></li>
+<li>Batch example, to run many simulations: <a href="smarties_batch.html">smarties_batch</a></li>
+</ul>
+</section>
+<section id="terms-examples" class="level2">
+<h2 class="anchored" data-anchor-id="terms-examples">TERMS examples</h2>
+<ul>
+<li>Doc: <a href="terms_comparison.html">TERMS</a></li>
 </ul>
 
 
@@ -336,7 +348,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/baptiste\.github\.io\/tmatrix_data_format\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

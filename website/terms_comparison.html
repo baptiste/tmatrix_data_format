@@ -9,7 +9,7 @@
 <meta name="author" content="baptiste">
 <meta name="dcterms.date" content="2024-07-11">
 
-<title>Indexing conventions – T-matrix</title>
+<title>Importing T-matrices in TERMS – T-matrix</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -69,35 +103,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -147,7 +152,7 @@ window.Quarto = {
 <span class="menu-text">Conversion long/wide</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../website/indexing.html" aria-current="page"> 
+    <a class="nav-link" href="../website/indexing.html"> 
 <span class="menu-text">Indexing reference</span></a>
   </li>  
   <li class="nav-item">
@@ -174,7 +179,7 @@ window.Quarto = {
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../website/terms_comparison.html"> 
+    <a class="nav-link active" href="../website/terms_comparison.html" aria-current="page"> 
 <span class="menu-text">TERMS</span></a>
   </li>  
 </ul>
@@ -203,21 +208,15 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#tmat.h5-indexing-convention" id="toc-tmat.h5-indexing-convention" class="nav-link active" data-scroll-target="#tmat.h5-indexing-convention">tmat.h5 indexing convention</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Indexing conventions</h1>
+<h1 class="title">Importing T-matrices in TERMS</h1>
 </div>
 
 
@@ -246,301 +245,33 @@ window.Quarto = {
 </header>
 
 
-<p>The common <code>2x2</code> block-matrix convention is to use</p>
-<ul>
-<li>l: multipole degree 1:lmax</li>
-<li>m: multipole order, -l:l</li>
-<li>s: multipole polarisation type, 1 or 2</li>
-</ul>
-<p>so for a T-matrix with <span class="math inline">\(l_\text{max}=3\)</span>, we have</p>
+<p>Below is an example script to run TERMS with input T-matrices in <code>.tmat.h5</code> format. The example is available as standalone scripts <a href="../terms/">terms/</a>.</p>
+<p>The input file for TERMS is</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ModeAndScheme</span> 2 3</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">MultipoleCutoff</span> 3 3 <span class="at">-3</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Wavelength</span> 400 800 200</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Medium</span> 1.7689</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">OutputFormat</span> HDF5 smarties_dimer</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">TmatrixFiles</span> 1 </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">smarties.tmat.h5</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Scatterers</span> 2</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">TF1</span> 0 <span class="at">-50</span> 0 40 0 0 0 2</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">TF1</span> 0  50 0 40 0 0.7853982 0 2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that only <code>vacuum_wavelength</code> in nanometres is supported, and the wavelengths much match exactly. TERMS does not check the embedding medium, so it also the user’s responsibility to ensure they are identical.</p>
+<p>The simulation is run at the command line with:</p>
+<pre><code>terms input_spheroid1_dimer &gt; log1</code></pre>
+<p>and produces an output file <code>smarties_dimer.h5</code> storing the simulated results. For comparison, we also run the same simulation with a T-matrix obtained via Finite-element simulations using JCMsuite. Below is a plot comparing the results.</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>l: 1..3
-m: -3..3
-s: 1..2
-900 elements</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="indexing_files/figure-html/tmat-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="terms_comparison_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>for each block we introduce a combined p-index such that,</p>
-<p><span class="math display">\[
-p(n,m) = n(n+1)+m
-\]</span> which here varies as p: 1..15, as each block is of dimension <code>pmax = lmax(lmax+1)+lmax = 3(3+1)+3 = 15</code>.</p>
-<p>The whole T-matrix is indexed with a combined q-index such that,</p>
-<p><span class="math display">\[
-q(s,p) = (s-1)p_{max} + p
-\]</span> which here gives us, q: 1..30. The total T-matrix dimension (along rows/columns) is thus <span class="math inline">\(q_{max}=2\times(l_\text{max}(l_\text{max}+1)+l_\text{max})=30\)</span>.</p>
-<p>In summary, for a given <span class="math inline">\(l_\text{max}\)</span> the indices are given by:</p>
-<ul>
-<li><span class="math inline">\(l=1:l_\text{max}\)</span></li>
-<li><span class="math inline">\(m=-l:l\)</span> for each l</li>
-<li><span class="math inline">\(s=1:2\)</span> for each pair of (l,m)</li>
-<li><span class="math inline">\(p(l,m) = l(l+1)+m\)</span></li>
-<li><span class="math inline">\(q(s,p) = (s-1)p_{max} + p\)</span></li>
-</ul>
-<p>Given <span class="math inline">\(q\)</span> and <span class="math inline">\(l_\text{max}\)</span> we can invert these indices as follows,</p>
-<ul>
-<li><span class="math inline">\(p = q - (s-1)q_\text{max}/2\)</span>,<br>
-giving here, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15</li>
-<li><span class="math inline">\(l = \lfloor\sqrt{p}\rfloor\)</span>,<br>
-giving here 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3</li>
-<li><span class="math inline">\(m = p - l(l+1)\)</span>,<br>
-giving here -1, 0, 1, -2, -1, 0, 1, 2, -3, -2, -1, 0, 1, 2, 3, -1, 0, 1, -2, -1, 0, 1, 2, -3, -2, -1, 0, 1, 2, 3</li>
-</ul>
-<section id="tmat.h5-indexing-convention" class="level2">
-<h2 class="anchored" data-anchor-id="tmat.h5-indexing-convention">tmat.h5 indexing convention</h2>
-<p>In the tmat.h5 format inherited from Treams, indices are ordered by <code>s, m, l</code> (fastest to slowest). We can convert to this indexing by calculating new indices <code>u, u'</code> such that:</p>
-<p><span class="math display">\[u = 2(p-1) + s\]</span></p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<colgroup>
-<col style="width: 2%">
-<col style="width: 3%">
-<col style="width: 2%">
-<col style="width: 2%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 3%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">1</th>
-<th style="text-align: right;">2</th>
-<th style="text-align: right;">3</th>
-<th style="text-align: right;">4</th>
-<th style="text-align: right;">5</th>
-<th style="text-align: right;">6</th>
-<th style="text-align: right;">7</th>
-<th style="text-align: right;">8</th>
-<th style="text-align: right;">9</th>
-<th style="text-align: right;">10</th>
-<th style="text-align: right;">11</th>
-<th style="text-align: right;">12</th>
-<th style="text-align: right;">13</th>
-<th style="text-align: right;">14</th>
-<th style="text-align: right;">15</th>
-<th style="text-align: right;">16</th>
-<th style="text-align: right;">17</th>
-<th style="text-align: right;">18</th>
-<th style="text-align: right;">19</th>
-<th style="text-align: right;">20</th>
-<th style="text-align: right;">21</th>
-<th style="text-align: right;">22</th>
-<th style="text-align: right;">23</th>
-<th style="text-align: right;">24</th>
-<th style="text-align: right;">25</th>
-<th style="text-align: right;">26</th>
-<th style="text-align: right;">27</th>
-<th style="text-align: right;">28</th>
-<th style="text-align: right;">29</th>
-<th style="text-align: right;">30</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">u</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">19</td>
-<td style="text-align: right;">21</td>
-<td style="text-align: right;">23</td>
-<td style="text-align: right;">25</td>
-<td style="text-align: right;">27</td>
-<td style="text-align: right;">29</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">22</td>
-<td style="text-align: right;">24</td>
-<td style="text-align: right;">26</td>
-<td style="text-align: right;">28</td>
-<td style="text-align: right;">30</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">p</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">15</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">l</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">m</td>
-<td style="text-align: right;">-1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">-2</td>
-<td style="text-align: right;">-1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">-3</td>
-<td style="text-align: right;">-2</td>
-<td style="text-align: right;">-1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">-1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">-2</td>
-<td style="text-align: right;">-1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">-3</td>
-<td style="text-align: right;">-2</td>
-<td style="text-align: right;">-1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">s</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
