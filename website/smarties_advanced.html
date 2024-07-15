@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="baptiste">
-<meta name="dcterms.date" content="2024-07-11">
+<meta name="dcterms.date" content="2024-07-15">
 
 <title>Exporting SMARTIES T-matrices – T-matrix</title>
 <style>
@@ -262,7 +262,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 11, 2024</p>
+      <p class="date">July 15, 2024</p>
     </div>
   </div>
   
@@ -274,7 +274,7 @@ window.Quarto = {
 </header>
 
 
-<p>Below is an example script to run SMARTIES for multiple wavelengths and export the T-matrices in <code>.tmat.h5</code> format. The script is available as standalone script <a href="../smarties/example_advanced.m">example_advanced.m</a>.</p>
+<p>Below is an example script to run SMARTIES for multiple wavelengths and export the T-matrices in <code>.tmat.h5</code> format. The script is available as standalone script <a href="../smarties/smarties_advanced.m">smarties_advanced.m</a>.</p>
 <p>SMARTIES provides some functions to estimate the maximum multipolar order and number of quadrature points required to reach a desired accuracy. We choose here to fix the relative accuracy to <span class="math inline">\(10^{-8}\)</span> for the orientation-averaged extinction cross-section, which results in higher <span class="math inline">\(l_\text{max}\)</span> values for larger and/or more elongated spheroids. Note that in some cases SMARTIES may fail to achieve the requested accuracy, in which case a manual adjustment of the convergence parameters may help.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">path</span>(<span class="fu">pathdef</span>)<span class="op">;</span> <span class="co">% clear previous path changes</span></span>
@@ -396,11 +396,11 @@ window.Quarto = {
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'description'</span><span class="op">,</span> <span class="st">'Computation using SMARTIES, a numerically robust EBCM implementation for spheroids'</span><span class="op">,...</span></span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'keywords'</span><span class="op">,</span> <span class="st">'gold, spheroid, ebcm'</span><span class="op">,</span> <span class="st">'script'</span><span class="op">,</span> [<span class="fu">mfilename</span> <span class="st">'.m'</span>])<span class="op">;</span></span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>tmatrix_hdf5(<span class="st">'example_advanced.tmat.h5'</span><span class="op">,</span> tmatrix<span class="op">,</span> wavelength<span class="op">,</span> epsilon<span class="op">,...</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>tmatrix_hdf5(<span class="st">'smarties_advanced.tmat.h5'</span><span class="op">,</span> tmatrix<span class="op">,</span> wavelength<span class="op">,</span> epsilon<span class="op">,...</span></span>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>              geometry<span class="op">,</span> computation<span class="op">,</span> comments)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <!-- export the code into standalone file -->
-<p>Output file: <a href="../smarties/example_advanced.tmat.h5">example_advanced.tmat.h5</a></p>
+<p>Output file: <a href="../smarties/smarties_advanced.tmat.h5">smarties_advanced.tmat.h5</a></p>
 
 
 

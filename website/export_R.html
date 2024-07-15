@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="baptiste">
-<meta name="dcterms.date" content="2024-07-11">
+<meta name="dcterms.date" content="2024-07-15">
 
 <title>Export to ‘.tmat.h5’ format with R – T-matrix</title>
 <style>
@@ -269,7 +269,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 11, 2024</p>
+      <p class="date">July 15, 2024</p>
     </div>
   </div>
   
@@ -323,7 +323,7 @@ window.Quarto = {
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (li <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>Lmax){</span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (mi <span class="cf">in</span> <span class="sc">-</span>li<span class="sc">:</span>li){</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (si <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"magnetic"</span>, <span class="st">"electric"</span>)){</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (si <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"electric"</span>, <span class="st">"magnetic"</span>)){</span>
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>      modes<span class="sc">$</span>l[i] <span class="ot">&lt;-</span> li</span>
 <span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>      modes<span class="sc">$</span>m[i] <span class="ot">&lt;-</span> mi</span>
 <span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>      modes<span class="sc">$</span>polarization[i] <span class="ot">&lt;-</span> si</span>

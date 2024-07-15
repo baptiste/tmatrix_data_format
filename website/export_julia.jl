@@ -24,7 +24,7 @@ let
 i=1
 for li = 1:Lmax
     for mi = -li:li
-        for si = ["magnetic", "electric"]
+        for si = ["electric", "magnetic"]
             l[i] = li
             m[i] = mi
             s[i] = si
