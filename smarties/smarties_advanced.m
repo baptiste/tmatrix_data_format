@@ -6,7 +6,7 @@ clearvars;
 %% example
 
 % requested precision (OA Cext)
-accuracy = 1e-10;
+accuracy = 1e-8;
 
 % prolate Au spheroid in water
 % semi-axes a=b=20nm, c=40nm
@@ -115,5 +115,5 @@ comments = struct('name', 'Au prolate spheroid in water',...
     'description', 'Computation using SMARTIES, a numerically robust EBCM implementation for spheroids',...
     'keywords', 'gold, spheroid, ebcm', 'script', [mfilename '.m']);
 
-tmatrix_hdf5('example_advanced.tmat.h5', tmatrix, wavelength, epsilon,...
+tmatrix_hdf5('smarties_advanced.tmat.h5', tmatrix, wavelength, epsilon,...
               geometry, computation, comments)

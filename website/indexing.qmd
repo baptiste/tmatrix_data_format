@@ -20,7 +20,7 @@ The common `2x2` block-matrix convention is to use
 
 - l: multipole degree 1:lmax
 - m: multipole order, -l:l
-- s: multipole polarisation type, 1 or 2
+- s: multipole polarisation type, 1 (magnetic) or 2 (electric)
 
 so for a T-matrix with $l_\text{max}=3$, we have
 

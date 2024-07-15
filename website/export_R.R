@@ -31,7 +31,7 @@ modes <- list(l = rep(NA_integer_, qmax),
 i <- 1
 for (li in 1:Lmax){
   for (mi in -li:li){
-    for (si in c("magnetic", "electric")){
+    for (si in c("electric", "magnetic")){
       modes$l[i] <- li
       modes$m[i] <- mi
       modes$polarization[i] <- si
