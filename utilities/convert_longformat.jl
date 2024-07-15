@@ -44,6 +44,7 @@ qmax = 2*(Lmax*(Lmax+1)+Lmax)
 # indices u, u' to place the T-matrix elements
 
 tmat_indexing = function(l,m,s,lmax)
+    s = 3 - s # magnetic/electric -> electric/magnetic
     p = l * (l + 1) + m
     pmax = lmax*(lmax+1)+lmax
     q = (s-1) * pmax + p
