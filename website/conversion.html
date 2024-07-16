@@ -354,98 +354,99 @@ window.Quarto = {
 <span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>qmax <span class="op">=</span> <span class="fl">2</span><span class="fu">*</span>(<span class="fu">Lmax*</span>(Lmax<span class="op">+</span><span class="fl">1</span>)<span class="op">+</span>Lmax)</span>
 <span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="co"># indices u, u' to place the T-matrix elements</span></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>tmat_indexing <span class="op">=</span> <span class="kw">function</span>(l,m,s,lmax)</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> l <span class="op">*</span> (l <span class="op">+</span> <span class="fl">1</span>) <span class="op">+</span> m</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    pmax <span class="op">=</span> <span class="fu">lmax*</span>(lmax<span class="op">+</span><span class="fl">1</span>)<span class="op">+</span>lmax</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> (s<span class="op">-</span><span class="fl">1</span>) <span class="op">*</span> pmax <span class="op">+</span> p</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">2</span><span class="fu">*</span>(p<span class="op">-</span><span class="fl">1</span>) <span class="op">+</span> s</span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>tmatrix <span class="op">=</span> <span class="fu">zeros</span>(<span class="dt">ComplexF64</span>,(Nl,qmax,qmax))</span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>Nl</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> <span class="fu">tmat_indexing</span>.(dg[i].n, dg[i].m, dg[i].s,Lmax)</span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>up <span class="op">=</span> <span class="fu">tmat_indexing</span>.(dg[i].np, dg[i].mp, dg[i].sp,Lmax)</span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>    tmatrix[<span class="fu">CartesianIndex</span>.(i, u, up)] <span class="op">.=</span> dg[i].Tr <span class="op">+</span> <span class="fl">1im</span><span class="op">*</span>dg[i].Ti</span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="fu">zeros</span>(<span class="dt">Int64</span>, qmax)</span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="fu">zeros</span>(<span class="dt">Int64</span>, qmax)</span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{String}</span>(<span class="cn">undef</span>,qmax)</span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>i<span class="op">=</span><span class="fl">1</span></span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> li <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>Lmax</span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> mi <span class="op">=</span> <span class="op">-</span>li<span class="op">:</span>li</span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> si <span class="op">=</span> [<span class="st">"magnetic"</span>,<span class="st">"electric"</span>]</span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>            l[i] <span class="op">=</span> li</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>            m[i] <span class="op">=</span> mi</span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>            s[i] <span class="op">=</span> si</span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>            i <span class="op">=</span> i<span class="op">+</span><span class="fl">1</span></span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="co"># in alternating electric/magnetic order</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>tmat_indexing <span class="op">=</span> <span class="kw">function</span>(l,m,s,lmax)</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> l <span class="op">*</span> (l <span class="op">+</span> <span class="fl">1</span>) <span class="op">+</span> m</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    pmax <span class="op">=</span> <span class="fu">lmax*</span>(lmax<span class="op">+</span><span class="fl">1</span>)<span class="op">+</span>lmax</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> (s<span class="op">-</span><span class="fl">1</span>) <span class="op">*</span> pmax <span class="op">+</span> p</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">2</span><span class="fu">*</span>(p<span class="op">-</span><span class="fl">1</span>) <span class="op">+</span> (<span class="fl">3</span> <span class="op">-</span> s) <span class="co"># magnetic/electric -&gt; electric/magnetic</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>tmatrix <span class="op">=</span> <span class="fu">zeros</span>(<span class="dt">ComplexF64</span>,(Nl,qmax,qmax))</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>Nl</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> <span class="fu">tmat_indexing</span>.(dg[i].n, dg[i].m, dg[i].s,Lmax)</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>up <span class="op">=</span> <span class="fu">tmat_indexing</span>.(dg[i].np, dg[i].mp, dg[i].sp,Lmax)</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    tmatrix[<span class="fu">CartesianIndex</span>.(i, u, up)] <span class="op">.=</span> dg[i].Tr <span class="op">+</span> <span class="fl">1im</span><span class="op">*</span>dg[i].Ti</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="fu">zeros</span>(<span class="dt">Int64</span>, qmax)</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="fu">zeros</span>(<span class="dt">Int64</span>, qmax)</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{String}</span>(<span class="cn">undef</span>,qmax)</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>i<span class="op">=</span><span class="fl">1</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> li <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>Lmax</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> mi <span class="op">=</span> <span class="op">-</span>li<span class="op">:</span>li</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> si <span class="op">=</span> [<span class="st">"electric"</span>,<span class="st">"magnetic"</span>]</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>            l[i] <span class="op">=</span> li</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>            m[i] <span class="op">=</span> mi</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>            s[i] <span class="op">=</span> si</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>            i <span class="op">=</span> i<span class="op">+</span><span class="fl">1</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="st">"aj.tmat.h5"</span></span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>ver <span class="op">=</span> <span class="bu">Pkg</span>.Operations.<span class="fu">Context</span>().env.manifest</span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>h5ver <span class="op">=</span> <span class="fu">string</span>(ver[<span class="fu">findfirst</span>(v<span class="op">-&gt;</span>v.name <span class="op">==</span> <span class="st">"HDF5"</span>, ver)].version)</span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>software <span class="op">=</span> <span class="st">"SMARTIES=1.1, julia=</span><span class="sc">$</span>(<span class="cn">VERSION</span>)<span class="st">, HDF5.jl=</span><span class="sc">$</span>(h5ver)<span class="st">"</span></span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="fu">h5open</span>(f, <span class="st">"w"</span>) <span class="cf">do</span> fid</span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>    fid[<span class="st">"vacuum_wavelength"</span>] <span class="op">=</span> wavelength</span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid[<span class="st">"vacuum_wavelength"</span>])[<span class="st">"unit"</span>] <span class="op">=</span> <span class="st">"nm"</span></span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>    <span class="co"># https://juliaio.github.io/HDF5.jl/stable/#Language-interoperability-with-row-and-column-major-order-arrays</span></span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>    fid[<span class="st">"tmatrix"</span>] <span class="op">=</span> <span class="fu">permutedims</span>(tmatrix, <span class="fu">reverse</span>(<span class="fl">1</span><span class="op">:</span><span class="fu">ndims</span>(tmatrix)))</span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>    modes <span class="op">=</span> <span class="fu">create_group</span>(fid, <span class="st">"modes"</span>) </span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>    modes[<span class="st">"l"</span>] <span class="op">=</span> l</span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>    modes[<span class="st">"m"</span>] <span class="op">=</span> m</span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>    modes[<span class="st">"polarization"</span>] <span class="op">=</span> s</span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>    embedding <span class="op">=</span> <span class="fu">create_group</span>(fid, <span class="st">"embedding"</span>) </span>
-<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>    embedding[<span class="st">"relative_permittivity"</span>] <span class="op">=</span> <span class="fl">1.33</span><span class="op">^</span><span class="fl">2</span></span>
-<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>    embedding[<span class="st">"relative_permeability"</span>] <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(embedding)[<span class="st">"name"</span>] <span class="op">=</span> <span class="st">"H2O, Water"</span></span>
-<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(embedding)[<span class="st">"keywords"</span>] <span class="op">=</span> <span class="st">"non-dispersive"</span></span>
-<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>    sca_mat <span class="op">=</span> <span class="fu">create_group</span>(fid, <span class="st">"scatterer/material"</span>) </span>
-<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>    sca_mat[<span class="st">"relative_permittivity"</span>] <span class="op">=</span> epsilon</span>
-<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>    sca_mat[<span class="st">"relative_permeability"</span>] <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(sca_mat)[<span class="st">"name"</span>] <span class="op">=</span> <span class="st">"Au, Gold"</span></span>
-<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(sca_mat)[<span class="st">"keywords"</span>] <span class="op">=</span> <span class="st">"dispersive, plasmonic"</span></span>
-<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(sca_mat)[<span class="st">"reference"</span>] <span class="op">=</span> <span class="st">"Au from Raschke et al 10.1103/PhysRevB.86.235147"</span></span>
-<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>    sca_geo <span class="op">=</span> <span class="fu">create_group</span>(fid, <span class="st">"scatterer/geometry"</span>) </span>
-<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>    sca_geo[<span class="st">"radiusxy"</span>] <span class="op">=</span> <span class="fl">20.0</span></span>
-<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>    sca_geo[<span class="st">"radiusz"</span>] <span class="op">=</span> <span class="fl">40.0</span></span>
-<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(sca_geo)[<span class="st">"unit"</span>] <span class="op">=</span> <span class="st">"nm"</span></span>
-<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(sca_geo)[<span class="st">"shape"</span>] <span class="op">=</span> <span class="st">"spheroid"</span></span>
-<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(sca_geo)[<span class="st">"name"</span>] <span class="op">=</span> <span class="st">"homogeneous spheroid with symmetry axis z"</span></span>
-<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>    mpar <span class="op">=</span> <span class="fu">create_group</span>(fid, <span class="st">"computation/method_parameters"</span>) </span>
-<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>    mpar[<span class="st">"Lmax"</span>] <span class="op">=</span> Lmax</span>
-<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>    mpar[<span class="st">"Ntheta"</span>] <span class="op">=</span> <span class="fl">100</span></span>
-<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>    script <span class="op">=</span> <span class="fu">create_group</span>(fid, <span class="st">"computation/files"</span>) </span>
-<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>    script[<span class="st">"script"</span>] <span class="op">=</span> <span class="fu">read</span>(<span class="st">"convert_julia.jl"</span>, <span class="dt">String</span>)</span>
-<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>    <span class="co"># write root attributes</span></span>
-<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid)[<span class="st">"name"</span>] <span class="op">=</span> <span class="st">"Au prolate spheroid in water"</span></span>
-<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid)[<span class="st">"description"</span>] <span class="op">=</span> <span class="st">"Computation using SMARTIES, a numerically robust EBCM implementation for spheroids"</span></span>
-<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid)[<span class="st">"keywords"</span>] <span class="op">=</span> <span class="st">"gold, spheroid, ebcm, passive, reciprocal, czinfinity, mirrorxyz"</span>    </span>
-<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid)[<span class="st">"storage_format_version"</span>] <span class="op">=</span> <span class="st">"v0.01"</span></span>
-<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>    <span class="co"># comp attributes</span></span>
-<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid[<span class="st">"computation"</span>])[<span class="st">"method"</span>] <span class="op">=</span> <span class="st">"EBCM, Extended Boundary Condition Method"</span></span>
-<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid[<span class="st">"computation"</span>])[<span class="st">"description"</span>] <span class="op">=</span> <span class="st">"Computation using SMARTIES, a numerically robust EBCM implementation for spheroids"</span></span>
-<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid[<span class="st">"computation"</span>])[<span class="st">"name"</span>] <span class="op">=</span> <span class="st">"SMARTIES"</span></span>
-<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid[<span class="st">"computation"</span>])[<span class="st">"software"</span>] <span class="op">=</span> software</span>
-<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
-<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="st">"aj.tmat.h5"</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>ver <span class="op">=</span> <span class="bu">Pkg</span>.Operations.<span class="fu">Context</span>().env.manifest</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>h5ver <span class="op">=</span> <span class="fu">string</span>(ver[<span class="fu">findfirst</span>(v<span class="op">-&gt;</span>v.name <span class="op">==</span> <span class="st">"HDF5"</span>, ver)].version)</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>software <span class="op">=</span> <span class="st">"SMARTIES=1.1, julia=</span><span class="sc">$</span>(<span class="cn">VERSION</span>)<span class="st">, HDF5.jl=</span><span class="sc">$</span>(h5ver)<span class="st">"</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="fu">h5open</span>(f, <span class="st">"w"</span>) <span class="cf">do</span> fid</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>    fid[<span class="st">"vacuum_wavelength"</span>] <span class="op">=</span> wavelength</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid[<span class="st">"vacuum_wavelength"</span>])[<span class="st">"unit"</span>] <span class="op">=</span> <span class="st">"nm"</span></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>    <span class="co"># https://juliaio.github.io/HDF5.jl/stable/#Language-interoperability-with-row-and-column-major-order-arrays</span></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>    fid[<span class="st">"tmatrix"</span>] <span class="op">=</span> <span class="fu">permutedims</span>(tmatrix, <span class="fu">reverse</span>(<span class="fl">1</span><span class="op">:</span><span class="fu">ndims</span>(tmatrix)))</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>    modes <span class="op">=</span> <span class="fu">create_group</span>(fid, <span class="st">"modes"</span>) </span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>    modes[<span class="st">"l"</span>] <span class="op">=</span> l</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>    modes[<span class="st">"m"</span>] <span class="op">=</span> m</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>    modes[<span class="st">"polarization"</span>] <span class="op">=</span> s</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>    embedding <span class="op">=</span> <span class="fu">create_group</span>(fid, <span class="st">"embedding"</span>) </span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>    embedding[<span class="st">"relative_permittivity"</span>] <span class="op">=</span> <span class="fl">1.33</span><span class="op">^</span><span class="fl">2</span></span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>    embedding[<span class="st">"relative_permeability"</span>] <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(embedding)[<span class="st">"name"</span>] <span class="op">=</span> <span class="st">"H2O, Water"</span></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(embedding)[<span class="st">"keywords"</span>] <span class="op">=</span> <span class="st">"non-dispersive"</span></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>    sca_mat <span class="op">=</span> <span class="fu">create_group</span>(fid, <span class="st">"scatterer/material"</span>) </span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>    sca_mat[<span class="st">"relative_permittivity"</span>] <span class="op">=</span> epsilon</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>    sca_mat[<span class="st">"relative_permeability"</span>] <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(sca_mat)[<span class="st">"name"</span>] <span class="op">=</span> <span class="st">"Au, Gold"</span></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(sca_mat)[<span class="st">"keywords"</span>] <span class="op">=</span> <span class="st">"dispersive, plasmonic"</span></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(sca_mat)[<span class="st">"reference"</span>] <span class="op">=</span> <span class="st">"Au from Raschke et al 10.1103/PhysRevB.86.235147"</span></span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>    sca_geo <span class="op">=</span> <span class="fu">create_group</span>(fid, <span class="st">"scatterer/geometry"</span>) </span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>    sca_geo[<span class="st">"radiusxy"</span>] <span class="op">=</span> <span class="fl">20.0</span></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>    sca_geo[<span class="st">"radiusz"</span>] <span class="op">=</span> <span class="fl">40.0</span></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(sca_geo)[<span class="st">"unit"</span>] <span class="op">=</span> <span class="st">"nm"</span></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(sca_geo)[<span class="st">"shape"</span>] <span class="op">=</span> <span class="st">"spheroid"</span></span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(sca_geo)[<span class="st">"name"</span>] <span class="op">=</span> <span class="st">"homogeneous spheroid with symmetry axis z"</span></span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>    mpar <span class="op">=</span> <span class="fu">create_group</span>(fid, <span class="st">"computation/method_parameters"</span>) </span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>    mpar[<span class="st">"Lmax"</span>] <span class="op">=</span> Lmax</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>    mpar[<span class="st">"Ntheta"</span>] <span class="op">=</span> <span class="fl">100</span></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>    script <span class="op">=</span> <span class="fu">create_group</span>(fid, <span class="st">"computation/files"</span>) </span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>    script[<span class="st">"script"</span>] <span class="op">=</span> <span class="fu">read</span>(<span class="st">"convert_julia.jl"</span>, <span class="dt">String</span>)</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>    <span class="co"># write root attributes</span></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid)[<span class="st">"name"</span>] <span class="op">=</span> <span class="st">"Au prolate spheroid in water"</span></span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid)[<span class="st">"description"</span>] <span class="op">=</span> <span class="st">"Computation using SMARTIES, a numerically robust EBCM implementation for spheroids"</span></span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid)[<span class="st">"keywords"</span>] <span class="op">=</span> <span class="st">"gold, spheroid, ebcm, passive, reciprocal, czinfinity, mirrorxyz"</span>    </span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid)[<span class="st">"storage_format_version"</span>] <span class="op">=</span> <span class="st">"v0.01"</span></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>    <span class="co"># comp attributes</span></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid[<span class="st">"computation"</span>])[<span class="st">"method"</span>] <span class="op">=</span> <span class="st">"EBCM, Extended Boundary Condition Method"</span></span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid[<span class="st">"computation"</span>])[<span class="st">"description"</span>] <span class="op">=</span> <span class="st">"Computation using SMARTIES, a numerically robust EBCM implementation for spheroids"</span></span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid[<span class="st">"computation"</span>])[<span class="st">"name"</span>] <span class="op">=</span> <span class="st">"SMARTIES"</span></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attributes</span>(fid[<span class="st">"computation"</span>])[<span class="st">"software"</span>] <span class="op">=</span> software</span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
