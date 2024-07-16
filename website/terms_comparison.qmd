@@ -5,7 +5,7 @@ date: today
 engine: knitr
 ---
 
-Below is an example script to run TERMS with input T-matrices in `.tmat.h5` format. The example is available as standalone scripts [terms/](/terms/). 
+Below is an example script to run TERMS with input T-matrices in `.tmat.h5` format. The input file for this example is available as standalone script [terms/input_spheroid1_dimer](/terms/input_spheroid1_dimer). 
 
 The input file for TERMS is
 

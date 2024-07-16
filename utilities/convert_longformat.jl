@@ -42,12 +42,13 @@ Lmax = maximum(d.n)
 qmax = 2*(Lmax*(Lmax+1)+Lmax)
 
 # indices u, u' to place the T-matrix elements
+# in alternating electric/magnetic order
 
 tmat_indexing = function(l,m,s,lmax)
     p = l * (l + 1) + m
     pmax = lmax*(lmax+1)+lmax
     q = (s-1) * pmax + p
-    return 2*(p-1) + s
+    return 2*(p-1) + (3 - s) # magnetic/electric -> electric/magnetic
 end
 
 tmatrix = zeros(ComplexF64,(Nl,qmax,qmax))
@@ -65,7 +66,7 @@ let
 i=1
 for li = 1:Lmax
     for mi = -li:li
-        for si = ["magnetic","electric"]
+        for si = ["electric","magnetic"]
             l[i] = li
             m[i] = mi
             s[i] = si
