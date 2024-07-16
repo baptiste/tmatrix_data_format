@@ -9,7 +9,7 @@
 <meta name="author" content="baptiste">
 <meta name="dcterms.date" content="2024-07-16">
 
-<title>Exporting SMARTIES T-matrices – T-matrix</title>
+<title>SMARTIES T-matrix with defined accuracy – T-matrix</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -133,7 +133,6 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -199,7 +198,7 @@ window.Quarto = {
   </li>  
         <li>
     <a class="dropdown-item" href="../website/smarties_advanced.html">
- <span class="dropdown-text">Exporting SMARTIES T-matrices</span></a>
+ <span class="dropdown-text">SMARTIES T-matrix with defined accuracy</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../website/smarties_batch.html">
@@ -207,10 +206,21 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="../website/terms_comparison.html"> 
-<span class="menu-text">TERMS</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-terms" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">TERMS</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-terms">    
+        <li>
+    <a class="dropdown-item" href="../website/terms_comparison.html">
+ <span class="dropdown-text">Importing T-matrices in TERMS</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../website/terms_tetrahedron.html">
+ <span class="dropdown-text">Tetrahedron comparison in TERMS</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -245,7 +255,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Exporting SMARTIES T-matrices</h1>
+<h1 class="title">SMARTIES T-matrix with defined accuracy</h1>
 </div>
 
 
@@ -274,7 +284,7 @@ window.Quarto = {
 </header>
 
 
-<p>Below is an example script to run SMARTIES for multiple wavelengths and export the T-matrices in <code>.tmat.h5</code> format. The script is available as standalone script <a href="../smarties/smarties_advanced.m">smarties_advanced.m</a>.</p>
+<p>This example script for SMARTIES calculates T-matrices with a predefined accuracy, and exports them in <code>.tmat.h5</code> format. The script is available as standalone script <a href="../smarties/smarties_advanced.m">smarties_advanced.m</a>.</p>
 <p>SMARTIES provides some functions to estimate the maximum multipolar order and number of quadrature points required to reach a desired accuracy. We choose here to fix the relative accuracy to <span class="math inline">\(10^{-8}\)</span> for the orientation-averaged extinction cross-section, which results in higher <span class="math inline">\(l_\text{max}\)</span> values for larger and/or more elongated spheroids. Note that in some cases SMARTIES may fail to achieve the requested accuracy, in which case a manual adjustment of the convergence parameters may help.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">path</span>(<span class="fu">pathdef</span>)<span class="op">;</span> <span class="co">% clear previous path changes</span></span>

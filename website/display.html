@@ -104,7 +104,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -170,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
         <li>
     <a class="dropdown-item" href="../website/smarties_advanced.html">
- <span class="dropdown-text">Exporting SMARTIES T-matrices</span></a>
+ <span class="dropdown-text">SMARTIES T-matrix with defined accuracy</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../website/smarties_batch.html">
@@ -178,10 +177,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="../website/terms_comparison.html"> 
-<span class="menu-text">TERMS</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-terms" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">TERMS</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-terms">    
+        <li>
+    <a class="dropdown-item" href="../website/terms_comparison.html">
+ <span class="dropdown-text">Importing T-matrices in TERMS</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../website/terms_tetrahedron.html">
+ <span class="dropdown-text">Tetrahedron comparison in TERMS</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -245,11 +255,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><a href="_fun.R">R utility functions</a> used below.</p>
+<p><a href="_utilities.R">R utility functions</a> used below.</p>
 <p>The following R code produces a visual heatmap of a T-matrix with a standard 2x2 block matrix layout and indexing conventions.</p>
 <p>Example data in long format:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="st">'../smarties/example_simple.tmat.h5'</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="st">'../smarties/smarties_simple.tmat.h5'</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>slices <span class="ot">&lt;-</span> <span class="fu">read_tmat</span>(f)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> slices[slices<span class="sc">$</span>wavelength <span class="sc">==</span> <span class="dv">400</span>,]</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> slices[slices<span class="sc">$</span>wavelength <span class="sc">==</span> <span class="dv">750</span>,]</span>
