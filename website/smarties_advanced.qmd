@@ -1,11 +1,11 @@
 ---
-title: "Exporting SMARTIES T-matrices"
+title: "SMARTIES T-matrix with defined accuracy"
 author: "baptiste"
 date: today
 engine: knitr
 ---
 
-Below is an example script to run SMARTIES for multiple wavelengths and export the T-matrices in `.tmat.h5` format. The script is available as standalone script [smarties_advanced.m](/smarties/smarties_advanced.m).
+This example script for SMARTIES calculates T-matrices with a predefined accuracy, and exports them in `.tmat.h5` format. The script is available as standalone script [smarties_advanced.m](/smarties/smarties_advanced.m).
 
 SMARTIES provides some functions to estimate the maximum multipolar order and number of quadrature points required to reach a desired accuracy. We choose here to fix the relative accuracy to $10^{-8}$ for the orientation-averaged extinction cross-section, which results in higher $l_\text{max}$ values for larger and/or more elongated spheroids. Note that in some cases SMARTIES may fail to achieve the requested accuracy, in which case a manual adjustment of the convergence parameters may help.
 

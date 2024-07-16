@@ -24,16 +24,17 @@ A common notation in the T-matrix literature is to expand fields in vector spher
 
 $$
 \begin{aligned}
-\mathbf{E}(\mathbf{r}) = &\sum_{l=1}^{\infty} \sum_{m=-l}^l\left[a_{m l} \mathbf{M}_{m l}\left(k \mathbf{r}\right)+b_{m l} \mathbf{N}_{m l}\left(k\mathbf{r}\right)\right] = \\ {} = & \sum_{s=1}^2\sum_{l=1}^{\infty} \sum_{m=-l}^l a^{(s)}_{ m l} \mathbf{\Psi}^{(s)}_{m l}\left(k \mathbf{r}\right) \quad \text{(compact notation)}
+\mathbf{E}(\mathbf{r}) = &\sum_{l=1}^{\infty} \sum_{m=-l}^l\left[a_{m l} \mathbf{M}_{m l}\left(k \mathbf{r}\right)+b_{m l} \mathbf{N}_{m l}\left(k\mathbf{r}\right)\right]  \\ {} = & \sum_{s=1}^2\sum_{l=1}^{\infty} \sum_{m=-l}^l a^{(s)}_{ m l} \mathbf{\Psi}^{(s)}_{m l}\left(k \mathbf{r}\right) \quad \text{(compact notation)}
 \end{aligned}
 $$
+
 - l: multipole degree 1:lmax
 - m: multipole order, -l:l
 - s: multipole polarisation type, 1 (magnetic) or 2 (electric)
 
 and $\mathbf{M}\equiv \mathbf{\Psi}^{(1)}, \mathbf{N}\equiv \mathbf{\Psi}^{(2)}$ stand for the "magnetic" and "electric" types, respectively. 
 
-Arranging the expansion coefficients in this order naturally leads to the common `2x2` block-matrix convention. Explicitly, for a T-matrix with $l_\text{max}=3$, we can visualise the 900 elements organised as follows:
+Arranging the expansion coefficients in this order naturally leads to the common `2x2` block-matrix displayed below. Explicitly, for a T-matrix with $l_\text{max}=3$, we can visualise the 900 elements organised as follows:
 
 ```{r tmat, warning=FALSE,echo=FALSE, message=FALSE}
 
@@ -95,7 +96,7 @@ p <- ggplot(d, aes(q, qp)) +
 print(p)
 ```
 
-For each block we introduce a combined p-index such that,
+To keep track of the multiple indices, for each block we can introduce a combined p-index such that,
 
 $$
 p(n,m) = n(n+1)+m
@@ -108,7 +109,7 @@ $$
 q(s,p) = (s-1)p_{max} + p 
 $$
 which here gives us,
-`r sprintf("q: %s", paste(range(tmat$q), collapse = '..'))`. The total T-matrix dimension (along rows/columns) is thus $q_{max}=2\times(l_\text{max}(l_\text{max}+1)+l_\text{max})=30$.
+`r sprintf("q: %s", paste(range(tmat$q), collapse = '...'))`. The total T-matrix dimension (along rows/columns) is thus $q_{max}=2\times(l_\text{max}(l_\text{max}+1)+l_\text{max})=30$.
 
 In summary, for a given $l_\text{max}$ the indices are given by:
 
@@ -129,10 +130,10 @@ giving here `r (m = p-l*(l+1))`
 
 ## tmat.h5 indexing convention
 
-In the tmat.h5 format inherited from Treams, indices are ordered by `s, m, l` (fastest to slowest). We can convert to this indexing by calculating new indices `u, u'` such that:
+In the tmat.h5 format inherited from Treams, indices are ordered by `polarization, m, l` (fastest to slowest). We can convert to this indexing by calculating new indices `u, u'` such that:
 
 $$u = 2(p-1) + (3-s)$$
-where $(3-s)$ swaps electric and magnetic ordering (1 is electric in tmat.h5, 2 magnetic, but in the original block-matrix layout the first index is magnetic). Noting this little change, the index $u$ simply zips odd/even terms from the $p$ values of electric/magnetic blocks. Below is a reference table for the conversions taking place for the example of $l_\text{max}=3$. The index $q$ runs from 1 to 30, and the corresponding index $u$ in tmat.h5 convention has the elements reordered.
+where $(3-s)$ swaps electric and magnetic ordering (1 is electric in tmat.h5, 2 magnetic, but in the original block-matrix layout the first index is magnetic). Noting this little change, the index $u$ simply alternates terms from the electric/magnetic blocks. Below is a reference table for the conversions taking place for the example of $l_\text{max}=3$. The index $q$ runs from 1 to 30, and the corresponding index $u$ in tmat.h5 convention has the elements reordered.
 
 ```{r summary, warning=FALSE,echo=FALSE, message=FALSE}
 show_indices <- subset(tmat, lp==1 & mp==0 & sp==1)[c("q","u", "polar","p", "l","m","s")]

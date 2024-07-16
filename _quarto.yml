@@ -36,12 +36,13 @@ website:
         - website/smarties_advanced.qmd
         - website/smarties_batch.qmd
       - text: "TERMS"
-        file: website/terms_comparison.qmd
+        menu:
+        - website/terms_comparison.qmd
+        - website/terms_tetrahedron.qmd
 
 format:
   html:
     theme: cosmo
-    css: styles.css
     toc: true
 
 

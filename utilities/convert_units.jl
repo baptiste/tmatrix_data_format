@@ -9,7 +9,7 @@ include("unit_conversions.jl")
 
 # editing a copy of the original file
 f1 = "../reference_data/tetrahedron.tmat.h5"
-f2 = "tetrahedron_nm.tmat.h5"
+f2 = "../terms/tetrahedron_nm.tmat.h5"
 cp(f1, f2, force=true)
 
 fid = h5open(f2, "r+")
@@ -45,7 +45,7 @@ else
     message("The file does not appear to have correct frequency information")
 end
 
-write_dataset(fid, "vacuum_wavelength", wavelength) # in nm
+write_dataset(fid, "vacuum_wavelength", round.(wavelength; digits=3)) # rounding errors
 attributes(fid["vacuum_wavelength"])["unit"] = "nm"
-
-# read_dataset(fid, "vacuum_wavelength")
+read_dataset(fid, "vacuum_wavelength")
+close(fid)

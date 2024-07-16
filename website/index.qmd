@@ -27,4 +27,5 @@ Collection of scripts and self-contained examples to export/import T-matrices.
 
 ## TERMS examples
 
-- Doc: [TERMS](terms_comparison.html) 
+- Dimer of spheroids: [comparison](terms_comparison.html) 
+- Tetrahedron: [example](terms_tetrahedron.html) 

@@ -5,7 +5,7 @@ date: today
 format: html
 ---
 
-[R utility functions](_fun.R) used below.
+[R utility functions](_utilities.R) used below.
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
 library(knitr)
@@ -23,7 +23,7 @@ The following R code produces a visual heatmap of a T-matrix with a standard 2x2
 Example data in long format:
 
 ```{r}
-f <- '../smarties/example_simple.tmat.h5'
+f <- '../smarties/smarties_simple.tmat.h5'
 slices <- read_tmat(f)
 d1 <- slices[slices$wavelength == 400,]
 d2 <- slices[slices$wavelength == 750,]
