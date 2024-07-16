@@ -2,7 +2,6 @@
 # The example below reads a tmat file generated with Treams, where the frequency information is not stored using the field `vacuum_wavelength` in units of nm, as required in TERMS. We therefore copy the file, read the frequency and its unit, convert those to wavelengths in nm and write these new data to the file
 
 using Pkg, HDF5
-cd("/Users/baptiste/Documents/nano-optics/tmatrix_data_format/utilities/")
 pwd()
 # conversions between units
 include("unit_conversions.jl")

@@ -64,11 +64,11 @@ indices <- function(lmax=3, part=1){
 }
 
 tmat <- indices(3, 1)
-cat(sprintf("l: %s\nm: %s\ns: %s\n%s elements",
-            paste(range(tmat$l), collapse = '..'), 
-            paste(range(tmat$m), collapse = '..'), 
-            paste(range(tmat$s), collapse = '..'), 
-            nrow(tmat)))
+# cat(sprintf("l: %s\nm: %s\ns: %s\n%s elements",
+#             paste(range(tmat$l), collapse = '..'), 
+#             paste(range(tmat$m), collapse = '..'), 
+#             paste(range(tmat$s), collapse = '..'), 
+#             nrow(tmat)))
 
 
 d <- tmatrix_combinedindex(tmat)
