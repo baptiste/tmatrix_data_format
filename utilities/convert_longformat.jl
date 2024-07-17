@@ -125,7 +125,7 @@ h5open(f, "w") do fid
     attributes(fid)["name"] = "Au prolate spheroid in water"
     attributes(fid)["description"] = "Computation using SMARTIES, a numerically robust EBCM implementation for spheroids"
     attributes(fid)["keywords"] = "gold, spheroid, ebcm, passive, reciprocal, czinfinity, mirrorxyz"    
-    attributes(fid)["storage_format_version"] = "v0.01"
+    attributes(fid)["storage_format_version"] = "v1"
     
     # comp attributes
     attributes(fid["computation"])["method"] = "EBCM, Extended Boundary Condition Method"
