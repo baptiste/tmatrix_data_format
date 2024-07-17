@@ -126,7 +126,7 @@ h5write(f,'/modes/polarization', polarization)
 
 % root attributes
 h5writeatt(f, '/', 'name', 'Au prolate spheroid in water');
-h5writeatt(f, '/', 'storage_format_version', 'v0.01'); 
+h5writeatt(f, '/', 'storage_format_version', 'v1'); 
 h5writeatt(f, '/','description', ...
     'Computation using SMARTIES, a numerically robust EBCM implementation for spheroids');
 h5writeatt(f, '/','keywords', 'gold, spheroid, ebcm, passive, reciprocal, czinfinity, mirrorxyz');

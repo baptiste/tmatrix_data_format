@@ -86,7 +86,7 @@ fid <- H5Fopen(f)
 h5writeAttribute("Au prolate spheroid in water", fid, "name")
 h5writeAttribute("Computation using SMARTIES, a numerically robust EBCM implementation for spheroids", fid, "description")
 h5writeAttribute("gold, spheroid, ebcm, passive, reciprocal, czinfinity, mirrorxyz", fid, "keywords")
-h5writeAttribute("v0.01", fid, "storage_format_version")
+h5writeAttribute("v1", fid, "storage_format_version")
 
 # wavelength
 did <- H5Dopen(fid, "vacuum_wavelength")

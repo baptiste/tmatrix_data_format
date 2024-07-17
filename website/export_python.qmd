@@ -95,7 +95,7 @@ with h5py.File(f, "w") as f:
     f.attrs['name'] = 'Au prolate spheroid in water'
     f.attrs['keywords'] = 'gold, spheroid, ebcm, passive, reciprocal, czinfinity, mirrorxyz'
     f.attrs['description'] = 'Computation using SMARTIES, a numerically robust EBCM implementation for spheroids'
-    f.attrs['storage_format_version'] = 'v0.01'    
+    f.attrs['storage_format_version'] = 'v1'    
 
 ```
 
