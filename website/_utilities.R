@@ -28,7 +28,9 @@ tmatrix_combinedindex <- function(d, lmax=max(d$l)){
   mutate(d, p = p_index(l, m), 
          pp = p_index(lp, mp),
          q = q_index(p,  s,  pmax),
-         qp = q_index(pp,  sp,  pmax))
+         qp = q_index(pp,  sp,  pmax),
+         u = 2*(p-1) + (3 - s),
+         up = 2*(pp-1) + (3 - sp))
   
 }
 
@@ -39,8 +41,8 @@ tmatrix_breaks <- function(lmax){
   l <- seq.int(lmax)
   qmax <- 2*(lmax*(lmax + 1)+lmax)
   list(breaks = cumsum(rep((2*l+1), 2)),
-  labels = rep(cumsum((2*l+1)), 2),
-  minor_breaks = seq.int(qmax))
+       labels = rep(cumsum((2*l+1)), 2),
+       minor_breaks = seq.int(qmax))
 }
 
 ## ---- read_tmat
@@ -79,12 +81,18 @@ read_tmat <- function(f){
                            m = as.vector(m), mp = as.vector(mp), 
                            value = as.vector(tmat)) |> 
       mutate(Tr = Re(value), Ti = Im(value), mod = Mod(Tr + 1i* Ti)) |> 
+      mutate(p = p_index(l, m), 
+             pp = p_index(lp, mp),
+             q = q_index(p,  s,  max(p)),
+             qp = q_index(pp,  sp,  max(p)),
+             u = 2*(p-1) + (3 - s), 
+             up = 2*(pp-1) + (3 - sp)) |> 
       arrange(s,sp,l,lp,m,mp)
     
-    long_tmat$p <- p_index(long_tmat$l, long_tmat$m)
-    long_tmat$pp <- p_index(long_tmat$lp, long_tmat$mp)
-    long_tmat$q <- q_index(long_tmat$p, long_tmat$s, max(long_tmat$p))
-    long_tmat$qp <- q_index(long_tmat$pp, long_tmat$sp, max(long_tmat$pp))
+    # long_tmat$p <- p_index(long_tmat$l, long_tmat$m)
+    # long_tmat$pp <- p_index(long_tmat$lp, long_tmat$mp)
+    # long_tmat$q <- q_index(long_tmat$p, long_tmat$s, max(long_tmat$p))
+    # long_tmat$qp <- q_index(long_tmat$pp, long_tmat$sp, max(long_tmat$pp))
     
     return(long_tmat)
   }
@@ -112,7 +120,7 @@ tmatGrob <- function(m){
   dim(d) <- rc
   g1 <- rectGrob(width=unit(1,'snpc'),height=unit(1,'snpc'),gp=gpar(fill='cornsilk'))
   g2 <- rasterGrob(d, interpolate = FALSE)
-
+  
   grobTree(g1,g2)
 }
 
